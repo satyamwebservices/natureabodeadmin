@@ -5,7 +5,7 @@
         <title>Log In </title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
-        <meta content="Coderthemes" name="author" />>
+        <meta content="Coderthemes" name="author" />
         <script src="<?php echo base_url(); ?>assets/js/hyper-config.js"></script>
         <link href="<?php echo base_url(); ?>assets/css/app-saas.min.css" rel="stylesheet" type="text/css" id="app-style" />
         <link href="<?php echo base_url(); ?>assets/css/icons.min.css" rel="stylesheet" type="text/css" />
