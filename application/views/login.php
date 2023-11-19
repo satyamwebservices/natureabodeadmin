@@ -31,8 +31,8 @@
 
                             <!-- Logo -->
                             <div class="card-header py-4 text-center bg-primary">
-                                <a href="index.html">
-                                    <span><img src="<?php echo base_url(); ?>assets/images/logo.png" alt="logo" height="22"></span>
+                                <a>
+                                    <span>cms <img src="<?php echo base_url(); ?>assets/images/logo.png" alt="logo" height="22"></span>
                                 </a>
                             </div>
 
