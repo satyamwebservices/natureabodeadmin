@@ -1,7 +1,7 @@
 <div class="col-md-12 mb-3">
     <div class="row">
         <div class="box-header">
-            <h2>Edit Blog...<?php echo $username; ?></h2>
+            <h2>Edit Blog...</h2>
         </div>
     </div>
 </div>  

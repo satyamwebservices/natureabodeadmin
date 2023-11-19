@@ -75,9 +75,9 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => 'localhost',
-	'username' => 'root',
-	'password' => '',
+	'hostname' => '68.178.154.92',
+	'username' => 'natureadmin',
+	'password' => 'Adminnature@1234',
 	'database' => 'natureabode',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',

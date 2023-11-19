@@ -59,7 +59,7 @@ class Category extends CI_Controller {
             }
                 //print_r($data);
             // Insert the data into the 'article' table
-            $this->Category_model->set_news($data);
+            $this->category_model->set_news($data);
             $this->session->set_flashdata('success', 'Data inserted successfully.');
             redirect('project');
         }
@@ -115,7 +115,6 @@ class Category extends CI_Controller {
             redirect('project');
         }
     }
-    
     public function delete()
     {
         if ($this->Blog_model->delete_record($id)) {
