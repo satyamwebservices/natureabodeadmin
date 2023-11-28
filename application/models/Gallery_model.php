@@ -30,5 +30,10 @@ class Gallery_model extends CI_Model {
         $this->db->update('gallery', $data);
         return true; // Return true for successful update
     }
+
+    public function delete_record($id) {
+        $this->db->where('id', $id);
+        return $this->db->delete('gallery');
+    }
 }
 ?>

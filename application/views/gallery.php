@@ -32,3 +32,26 @@
 </table>
     </div>
 </div>  
+
+<script>
+function deleteBlog(blogId) {
+    $.ajax({
+        url: '<?php echo base_url("gallery/delete"); ?>', // Update the URL based on your controller method
+        type: 'POST',
+        dataType: 'json',
+        data: { id: blogId },
+        success: function(response) {
+            if (response.status === 'gallery deleted') {
+                alert('Gallery deleted successfully!');
+                // Remove the deleted blog element from the DOM
+                $('#galleryRow_' + blogId).remove();
+            } else {
+                alert('Error deleting Gallery.');
+            }
+        },
+        error: function() {
+            alert('Some Error contact to admin.');
+        }
+    });
+}
+</script>

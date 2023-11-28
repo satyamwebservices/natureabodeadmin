@@ -97,8 +97,13 @@ class Gallery extends CI_Controller {
             }
         }
 
-        public function delete()
-        {
-            
+        public function delete() {
+            $id = $this->input->post('id');
+    
+            if ($this->Gallery_model->delete_record($id)) {
+                echo json_encode(array('status' => 'Gallery deleted'));
+            } else {
+                echo json_encode(array('status' => 'error'));
+            }
         }
 }
