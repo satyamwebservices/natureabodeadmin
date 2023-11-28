@@ -18,13 +18,16 @@
         <td><?php echo $slider_item['title']; ?></td>
         <td><?php echo $slider_item['intro']; ?></td>
         <td><?php echo $slider_item['status']; ?></td>
-            <td>
-                <!-- Switch-->
+        <td>
+            <a href="slider/edit/<?= $slider_item['id']; ?>">Edit<i class="fa fa-pencil" aria-hidden="true"></i></a> | 
+            <a href="javascript:void(0);" class="delete-link" onclick="deleteBlog(<?= $slider_item['id']; ?>)">Delete</a>
+        </td>
+            <!-- <td>
                 <div>
                     <input type="checkbox" id="switch01" checked data-switch="success"/>
                     <label for="switch01" data-on-label="Yes" data-off-label="No" class="mb-0 d-block"></label>
                 </div>
-            </td>
+            </td> -->
         </tr>
         <?php endforeach; ?>
     </tbody>

@@ -93,7 +93,7 @@ class Slider extends CI_Controller {
                 'slider' => $existing_data, // Pass existing data to the view
             );
             $this->load->view('header');
-            $this->load->view('slider_edit', $data); // Load the edit view
+            $this->load->view('slider-edit', $data); // Load the edit view
             $this->load->view('footer');
         } else {
             // Handle file upload for hero image if a new image is selected
@@ -121,6 +121,8 @@ class Slider extends CI_Controller {
                 'title' => $this->input->post('title'),
                 'intro' => $this->input->post('intro'),
                 'status' => $this->input->post('status'),
+                'button' => $this->input->post('button'),
+                'btnlink' => $this->input->post('btnlink'),
                 'created_at' => $current_date,
                 'updated_at' => $current_date,
             );
@@ -135,7 +137,7 @@ class Slider extends CI_Controller {
     
             // Load a success view or redirect to another page
             $this->session->set_flashdata('success', 'Data updated successfully.');
-           redirect('slider_model');
+           redirect('slider');
         }
     }
 

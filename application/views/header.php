@@ -287,7 +287,7 @@ if (!$this->session->userdata('logged_in')) {
                                         <div class="collapse" id="photo">
                                             <ul class="side-nav-third-level">
                                                 <li><a href="<?php echo base_url('gallery/add'); ?>">Add Photo Gallery</a></li>
-                                                <li><a href="<?php echo base_url('gallery'); ?>">Listing Photo Gallery</a></li>
+                                                <li><a href="<?php echo base_url('gallery/view'); ?>">Listing Photo Gallery</a></li>
                                             </ul>
                                         </div>
                                     </li>
