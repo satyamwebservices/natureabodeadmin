@@ -15,7 +15,7 @@
     </div>   
 
     <div class="row mb-3">
-        <label for="example-fileinput" class="col-md-2 pl-1 col-form-label">Feature Image</label>
+        <label for="example-fileinput" class="col-md-2 pl-1 col-form-label">Feature Image(size 600x400px)</label>
         <div class="col-md-10">
             <input type="file" name="heroimg" accept="image/*" onchange="loadFile(event)" class="form-control mb-3">
             <img id="output" src="<?php echo base_url('assets/uploads/'); ?><?= $gallery['heroimg'] ?>" width="200px" height="auto"/>
