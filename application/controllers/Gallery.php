@@ -8,90 +8,97 @@ class Gallery extends CI_Controller {
         
     }
 
-    public function view()
-    {
-        $data['gallery'] = $this->Gallery_model->get_gallery();
-        $this->load->view('header');
-        $this->load->view('gallery', $data);
-        $this->load->view('footer');
-    }
-
         public function index()
         {
+            $data['gallery'] = $this->Gallery_model->get_gallery();
             $this->load->view('header');
-            $this->load->view('gallery-add');
+            $this->load->view('gallery', $data);
             $this->load->view('footer');
         }
         public function add() {
-            // File upload configuration for gallery images
-            $config['upload_path'] = './assets/uploads/';
-            $config['allowed_types'] = 'jpg|jpeg|png|gif';
-            $config['max_size'] = 2048; // 2MB max file size
-            $config['file_name'] = uniqid(); // Generate a unique file name
-            $this->load->library('upload', $config);
+            date_default_timezone_set('Asia/Kolkata');
+            $current_date = date('Y-m-d H:i:s');
         
-            $gallery_images = array(); // Initialize an array for gallery images
+            $this->form_validation->set_rules('title', 'Title', 'required');
         
-            // Handle gallery images
-            foreach ($_FILES['gallery']['name'] as $key => $value) {
-                $_FILES['userfile']['name'] = $_FILES['gallery']['name'][$key];
-                $_FILES['userfile']['type'] = $_FILES['gallery']['type'][$key];
-                $_FILES['userfile']['tmp_name'] = $_FILES['gallery']['tmp_name'][$key];
-                $_FILES['userfile']['error'] = $_FILES['gallery']['error'][$key];
-                $_FILES['userfile']['size'] = $_FILES['gallery']['size'][$key];
-        
-                if (!$this->upload->do_upload('userfile')) {
-                    $error = $this->upload->display_errors();
-                    echo $error; // Handle file upload error for gallery images
-                } else {
-                    $upload_data = $this->upload->data();
-                    $gallery_images[] = $upload_data['file_name']; // Store only the random name
-                }
-            }
-        
-            $data = array(
-                'gallery' => implode(',', $gallery_images), // Store gallery image names as comma-separated values
-            );
-        
-            $this->Gallery_model->insert_gallery($data); // Assuming your model function is named 'insert_gallery'
-        
-            // Redirect or set a flash message
-            redirect('gallery');
-        }
-  
-
-        public function edit($galleryId) {
-            // Fetch existing gallery data from the database based on $galleryId
-            $existingGalleryData = $this->Gallery_model->get_gallery_data_by_id($galleryId);
-
-            // Validate the form data
-            $this->form_validation->set_rules('gallery[]', 'Gallery', 'required');
-        
-            if ($this->form_validation->run() == FALSE) {
-                // Form validation failed, handle the error and load the edit view with existing data
-                $data['gallery'] = $existingGalleryData;
+            if ($this->form_validation->run() === FALSE) {
                 $this->load->view('header');
-                $this->load->view('gallery-edit', $data);
+                $this->load->view('gallery-add');
                 $this->load->view('footer');
             } else {
-                die('@@@@@@@');
-                // Handle the uploaded images
-                $galleryImages = $this->input->post('gallery');
+                // File upload configuration for gallery images
+                $config['upload_path'] = './assets/uploads/';
+                $config['allowed_types'] = 'jpg|jpeg|png|gif';
+                $config['max_size'] = 2048; // 2MB max file size
+                $config['file_name'] = uniqid(); // Generate a unique file name
         
-                // Merge the new images with the existing ones
-                $existingImages = explode(',', $existingGalleryData['gallery']);
-                $mergedImages = array_merge($existingImages, $galleryImages);
+                $this->load->library('upload', $config);
         
-                // Remove duplicate images, if necessary
-                $uniqueImages = array_unique($mergedImages);
+                $hero_image = '';
+                    if ($_FILES['heroimg']['name'] && $this->upload->do_upload('heroimg')) {
+                        $upload_data = $this->upload->data();
+                        $hero_image = $upload_data['file_name'];
+                    }
         
-                // Prepare data to update into the database
+                // Prepare data to insert into the database
                 $data = array(
-                    'gallery' => implode(',', $uniqueImages) // Store merged and unique gallery image names
+                    'title' => $this->input->post('title'),
+                    'status' => $this->input->post('status'),
+                    'created_at' => $current_date,
+                    'updated_at' => $current_date, 
+                    
+                );
+    
+                if ($hero_image) {
+                    $data['heroimg'] = $hero_image;
+                }
+                // Insert the data into the 'article' table
+                $this->Gallery_model->set_news($data);
+                $this->session->set_flashdata('success', 'Data inserted successfully.');
+                redirect('gallery');
+            }
+        }
+    
+        public function edit($id) {
+            date_default_timezone_set('Asia/Kolkata');
+            $current_date = date('Y-m-d H:i:s');
+        
+            $this->form_validation->set_rules('title', 'Title', 'required');
+        
+            if ($this->form_validation->run() === FALSE) {
+                // Load the existing category data and display the edit form
+                $data['gallery'] = $this->Gallery_model->get_gallerys($id); // Replace with your actual method
+                $this->load->view('header');
+                $this->load->view('gallery-edit', $data); // Create an edit view
+                $this->load->view('footer');
+            } else {
+                // File upload configuration for hero image
+                $config['upload_path'] = './assets/uploads/';
+                $config['allowed_types'] = 'jpg|jpeg|png|gif';
+                $config['max_size'] = 2048; // 2MB max file size
+                $config['file_name'] = uniqid(); // Generate a unique file name
+        
+                $this->load->library('upload', $config);
+        
+                $hero_image = '';
+                if ($_FILES['heroimg']['name'] && $this->upload->do_upload('heroimg')) {
+                    $upload_data = $this->upload->data();
+                    $hero_image = $upload_data['file_name'];
+                }
+        
+                // Prepare data to update in the database
+                $data = array(
+                    'title' => $this->input->post('title'),
+                    'status' => $this->input->post('status'),
+                    'updated_at' => $current_date,
                 );
         
-                // Update gallery data in the database
-                $this->Gallery_model->update_gallery($galleryId, $data);
+                if ($hero_image) {
+                    $data['heroimg'] = $hero_image;
+                }
+        
+                // Update the existing category with the new data
+                $this->Gallery_model->update_Gallery($id, $data); // Replace with your actual method
                 $this->session->set_flashdata('success', 'Data updated successfully.');
                 redirect('gallery');
             }
@@ -106,4 +113,5 @@ class Gallery extends CI_Controller {
                 echo json_encode(array('status' => 'error'));
             }
         }
+
 }

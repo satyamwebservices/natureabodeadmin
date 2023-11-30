@@ -7,18 +7,22 @@
         <table class="table table-centered mb-0">
     <thead>
         <tr>
+       
+            <th>Name</th>
             <th>Images</th>
             <th>Action</th>
         </tr>
     </thead>
     <tbody>
-    <?php foreach ($gallery as $slider_item): ?>
+    <?php foreach ($gallery as $data): ?>
         <tr>
-        <td><img src="<?php echo base_url('assets/uploads/'); ?><?php echo $slider_item['gallery']; ?>" width="200px;" /></td>
+        <tr id="resortRow_<?= $data['id']; ?>">
+        <td><?php echo $data['title']; ?></td>
+        <td><img src="<?php echo base_url('assets/uploads/'); ?><?php echo $data['heroimg']; ?>" width="90px;" /></td>
         
         <td>
-            <a href="edit/<?= $slider_item['id']; ?>">Edit<i class="fa fa-pencil" aria-hidden="true"></i></a> | 
-            <a href="javascript:void(0);" class="delete-link" onclick="deleteBlog(<?= $slider_item['id']; ?>)">Delete</a>
+            <a href="gallery/edit/<?= $data['id']; ?>">Edit<i class="fa fa-pencil" aria-hidden="true"></i></a> | 
+            <a href="javascript:void(0);" class="delete-link" onclick="deletegallery(<?php echo $data['id']; ?>)">Delete</a>
         </td>
             <!-- <td>
                 <div>
@@ -34,19 +38,20 @@
 </div>  
 
 <script>
-function deleteBlog(blogId) {
+function deletegallery(dataid) {
     $.ajax({
-        url: '<?php echo base_url("gallery/delete"); ?>', // Update the URL based on your controller method
+       
+       url: '<?php echo base_url("gallery/delete"); ?>', // Update the URL based on your controller method
         type: 'POST',
         dataType: 'json',
-        data: { id: blogId },
+        data: { id: dataid },
         success: function(response) {
-            if (response.status === 'gallery deleted') {
+            if (response.status === 'Gallery deleted') {
                 alert('Gallery deleted successfully!');
                 // Remove the deleted blog element from the DOM
-                $('#galleryRow_' + blogId).remove();
+                $('#resortRow_' + itemid).remove();
             } else {
-                alert('Error deleting Gallery.');
+                alert('Error deleting gallery.');
             }
         },
         error: function() {

@@ -7,28 +7,24 @@ class Gallery_model extends CI_Model {
         parent::__construct();
     }
 
-    public function insert_gallery($data) {
-        $this->db->insert('gallery', $data);
-        return $this->db->insert_id();
+    public function set_news($data) {
+        return $this->db->insert('gallery', $data);
     }
 
     public function get_gallery() {
-        $this->db->order_by('id', 'desc');
+        $this->db->where('status', 1);
         $query = $this->db->get('gallery');
         return $query->result_array();
     }
 
-    public function get_gallery_data_by_id($galleryId) {
-        // Fetch gallery data from the database based on the provided gallery ID
-        $query = $this->db->get_where('gallery', array('id' => $galleryId));
+    public function get_gallerys($id) {
+        $query = $this->db->get_where('gallery', array('id' => $id));
         return $query->row_array();
     }
 
-    public function update_gallery($galleryId, $data) {
-        // Update gallery data in the database based on the provided gallery ID
-        $this->db->where('id', $galleryId);
-        $this->db->update('gallery', $data);
-        return true; // Return true for successful update
+    public function update_gallery($id, $data) {
+        $this->db->where('id', $id);
+        return $this->db->update('gallery', $data);
     }
 
     public function delete_record($id) {

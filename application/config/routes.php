@@ -89,7 +89,6 @@ $route['discount/edit/(:num)'] = 'discount/edit/$1';
 $route['discount/delete/(:num)'] = 'discount/delete';
 // Gallery
 $route['gallery'] = 'gallery';
-$route['gallery'] = 'gallery/view';
 $route['gallery/add'] = 'gallery/add';
 $route['gallery/edit/(:num)'] = 'gallery/edit/$1';
 $route['gallery/delete/(:num)'] = 'gallery/delete';

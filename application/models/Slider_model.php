@@ -16,8 +16,6 @@ class Slider_model extends CI_Model {
         return $this->db->update('slider', $data);
     }
 
-
-
     public function get_sliders($id) {
         $query = $this->db->get_where('slider', array('id' => $id));
         return $query->row_array();
