@@ -75,7 +75,7 @@
 
     <div class="row mb-3">
         <div class="col-md-10 text-end">
-        <button class="btn btn-primary btn-lg float-right" type="submit">Submit</button>
+        <button class="btn btn-primary btn-lg float-right" id="submitBtn" type="submit">Submit</button>
         </div>
     </div>
 
@@ -93,4 +93,12 @@
       URL.revokeObjectURL(output.src) // free memory
     }
   };
+</script>
+
+<script src="<?php echo base_url('assets/ckeditor/ckeditor.js'); ?>"></script>
+<script>
+    CKEDITOR.replace('content', {
+        filebrowserUploadUrl: '<?php echo base_url('blog/add'); ?>',
+        // Other configurations as needed
+    });
 </script>

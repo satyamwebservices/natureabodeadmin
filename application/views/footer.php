@@ -40,12 +40,14 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 
     <!-- summernote js -->
-    <script src="<?php echo base_url('assets/summernote/summernote-bs4.min.js'); ?>"></script>
+    <!-- <script src="<?php //echo base_url('assets/summernote/summernote-bs4.min.js'); ?>"></script>
     <script>
       $('#summernote').summernote({
         tabsize: 2,
         height: 300
       });
-    </script>
+    </script> -->
+
+
 </body>
 </html>
