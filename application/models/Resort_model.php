@@ -20,7 +20,6 @@ class Resort_model extends CI_Model {
 
     public function update_status($newStatus) {
         $data = array('status' => $newStatus);
-
         $this->db->where('id', $id); 
         $this->db->update('resort', $data);
     }
