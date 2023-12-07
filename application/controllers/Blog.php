@@ -83,44 +83,50 @@ class Blog extends CI_Controller {
             $this->form_validation->set_rules('intro', 'Intro', 'trim');
         
             if ($this->form_validation->run() === FALSE) {
-                // Load the existing blog post data and display the edit form
-                $data['blog'] = $this->Blog_model->get_blog($id); // Replace with your actual method
+                $data['blog'] = $this->Blog_model->get_blog($id);
                 $this->load->view('header');
-                $this->load->view('blog-edit', $data); // Create an edit view
+                $this->load->view('blog-edit', $data);
                 $this->load->view('footer');
             } else {
-                $config['upload_path'] = './assets/uploads/';
-                $config['allowed_types'] = 'jpg|jpeg|png|gif';
-                $config['max_size'] = 2048;
-                $config['file_name'] = uniqid();
-        
-                $this->load->library('upload', $config);
                 $hero_image = '';
         
-                if ($_FILES['heroimg']['name'] && $this->upload->do_upload('heroimg')) {
-                    $upload_data = $this->upload->data();
-                    $hero_image = $upload_data['file_name'];
+                if ($_FILES['heroimg']['name']) {
+                    // File upload configuration for hero image
+                    $config['upload_path'] = './path/to/upload/directory/'; // Replace with your upload directory path
+                    $config['allowed_types'] = 'jpg|jpeg|png|gif';
+                    $config['max_size'] = 2048; // 2MB maximum file size (adjust as needed)
+                    $config['file_name'] = uniqid(); // Generate a unique file name
+                    $this->load->library('upload', $config);
+        
+                    if (!$this->upload->do_upload('heroimg')) {
+                        $error = $this->upload->display_errors();
+                        echo $error; // Handle file upload error for hero image
+                        exit; // Stop execution if upload fails (you can handle this differently)
+                    } else {
+                        $upload_data = $this->upload->data();
+                        $hero_image = $upload_data['file_name'];
+                    }
                 }
         
+                // Prepare data to update the record in the database
                 $data = array(
                     'title' => $this->input->post('title'),
-                    'slug' => strtolower(str_replace(' ', '-', trim($this->input->post('title')))),
                     'intro' => $this->input->post('intro'),
                     'content' => $this->input->post('content'),
                     'metatitle' => $this->input->post('metatitle'),
                     'metadesc' => $this->input->post('metadesc'),
                     'metakeyword' => $this->input->post('metakeyword'),
                     'status' => $this->input->post('status'),
-                    'updated_at' => $current_date,
+                    'updated_at' => $current_date, // Fix typo here from 'update_at' to 'updated_at'
                 );
         
                 if ($hero_image) {
                     $data['heroimg'] = $hero_image;
                 }
         
-                // Update the existing post with the new data
-                $this->Blog_model->update_blog($id, $data); // Replace with your actual method
-                $this->session->set_flashdata('success', 'Data updated successfully.');
+                // Update the data in the 'blog' table
+                $this->Blog_model->update_blog($id, $data);
+                $this->session->set_flashdata('success', 'Data Updated successfully.');
                 redirect('blog');
             }
         }
