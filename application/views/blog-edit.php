@@ -34,9 +34,9 @@
     <div class="row mb-3">
         <label for="simpleinput" class="col-md-2 pl-1 col-form-label">Body Content:</label>
         <div class="col-md-10">
+            <?php //print_r($blog['content']); ?>
         <textarea id="summernote" name="content" style="height: 250px;"><?= set_value('content', $blog['content']) ?></textarea>
-            <!-- <div id="snow-editor" style="height: 300px;">
-            </div> -->
+          
         </div>
     </div> 
 
@@ -72,7 +72,6 @@
         </div> 
     </div> 
 
- 
 
     <div class="row mb-3">
         <div class="col-md-10 text-end">

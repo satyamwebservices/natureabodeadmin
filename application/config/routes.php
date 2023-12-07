@@ -93,5 +93,7 @@ $route['gallery/add'] = 'gallery/add';
 $route['gallery/edit/(:num)'] = 'gallery/edit/$1';
 $route['gallery/delete/(:num)'] = 'gallery/delete';
 
+$route['upload/upload_image'] = 'upload/upload_image';
+
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
