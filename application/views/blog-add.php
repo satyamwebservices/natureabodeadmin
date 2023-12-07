@@ -34,7 +34,7 @@
     <div class="row mb-3">
         <label for="simpleinput" class="col-md-2 pl-1 col-form-label">Body Content:</label>
         <div class="col-md-10">
-        <textarea id="content" name="content" style="height: 250px;"></textarea>
+        <textarea id="imgfile" name="content" style="height: 250px;"></textarea>
             <!-- <div id="snow-editor" style="height: 300px;">
             </div> -->
         </div>
@@ -84,7 +84,7 @@
 
 <!-- Preview -->
             
-
+<script src="<?php echo base_url('assets/ckeditor/ckeditor.js'); ?>"></script>
 <script>
   var loadFile = function(event) {
     var output = document.getElementById('output');
@@ -94,16 +94,16 @@
     }
   };
 </script>
-<script src="<?php echo base_url('assets/ckeditor/ckeditor.js'); ?>"></script>
+
 <script>
     CKEDITOR.replace('content');
     document.getElementById('submitBtn').addEventListener('click', function () {
         var formData = new FormData();
         var content = CKEDITOR.instances.content.getData();
-        var imageFile = document.getElementById('content').files[0];
+        var imageFile = document.getElementById('imgfile').files[0];
 
         formData.append('content', content);
-        formData.append('content', imageFile);
+        formData.append('imgfile', imageFile);
 
         var xhr = new XMLHttpRequest();
         xhr.open('POST', '<?= base_url('blog/add') ?>', true);

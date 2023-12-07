@@ -21,6 +21,8 @@ class Blog extends CI_Controller {
         date_default_timezone_set('Asia/Kolkata');
         $current_date = date('Y-m-d H:i:s');
     
+        $this->load->library('upload'); // Load upload library
+    
         $this->form_validation->set_rules('title', 'Title', 'required');
         $this->form_validation->set_rules('intro', 'Intro', 'trim');
     
@@ -29,34 +31,39 @@ class Blog extends CI_Controller {
             $this->load->view('blog-add');
             $this->load->view('footer');
         } else {
+            // Handling content and image uploads
             $content = $this->input->post('content');
-            //$content = preg_replace('/blob:/', base_url('assets/uploads/'), $content);
+    
+            // Handling imageFile (blob:http://localhost/) if provided
             if (!empty($_FILES['imageFile']['name'])) {
                 $upload_path = './assets/uploads/';
                 $file_name = $_FILES['imageFile']['name'];
                 $temp_name = $_FILES['imageFile']['tmp_name'];
-        
+    
                 // Move uploaded image file to the destination folder
                 if (move_uploaded_file($temp_name, $upload_path . $file_name)) {
                     $image_path = base_url('assets/uploads/' . $file_name);
                     $content = str_replace('blob:http://localhost/', $image_path, $content);
                 } else {
-                   
                     echo 'File upload failed.';
+                    return; // Abort further execution on upload failure
                 }
             }
-            // hero image
+    
+            // Handling heroimg file upload
             $config['upload_path'] = './assets/uploads/';
             $config['allowed_types'] = 'jpg|jpeg|png|gif';
             $config['max_size'] = 2048;
             $config['file_name'] = uniqid();
-            $this->load->library('upload', $config);
+            $this->upload->initialize($config); // Initialize upload settings
+    
             $hero_image = '';
             if ($_FILES['heroimg']['name'] && $this->upload->do_upload('heroimg')) {
                 $upload_data = $this->upload->data();
                 $hero_image = $upload_data['file_name'];
             }
     
+            // Create data array to insert into the database
             $data = array(
                 'title' => $this->input->post('title'),
                 'slug' => 'blog/' . strtolower(str_replace(' ', '-', trim($this->input->post('title')))),
@@ -74,6 +81,7 @@ class Blog extends CI_Controller {
                 $data['heroimg'] = $hero_image;
             }
     
+            // Insert data into the database using Blog_model
             $this->Blog_model->set_news($data);
             $this->session->set_flashdata('success', 'Data inserted successfully.');
             redirect('blog');
