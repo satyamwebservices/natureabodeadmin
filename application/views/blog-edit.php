@@ -35,7 +35,7 @@
         <label for="simpleinput" class="col-md-2 pl-1 col-form-label">Body Content:</label>
         <div class="col-md-10">
             <?php //print_r($blog['content']); ?>
-        <textarea id="summernote" name="content" style="height: 250px;"><?= set_value('content', $blog['content']) ?></textarea>
+        <textarea id="imgfile" name="content" style="height: 250px;"><?= set_value('content', $blog['content']) ?></textarea>
           
         </div>
     </div> 
@@ -85,6 +85,7 @@
             
 
 
+<script src="<?php echo base_url('assets/ckeditor/ckeditor.js'); ?>"></script>
 <script>
   var loadFile = function(event) {
     var output = document.getElementById('output');
@@ -95,10 +96,27 @@
   };
 </script>
 
-<script src="<?php echo base_url('assets/ckeditor/ckeditor.js'); ?>"></script>
 <script>
-    CKEDITOR.replace('content', {
-        filebrowserUploadUrl: '<?php echo base_url('blog/add'); ?>',
-        // Other configurations as needed
+    CKEDITOR.replace('content');
+    document.getElementById('submitBtn').addEventListener('click', function () {
+        var formData = new FormData();
+        var content = CKEDITOR.instances.content.getData();
+        var imageFile = document.getElementById('imgfile').files[0];
+
+        formData.append('content', content);
+        formData.append('imgfile', imageFile);
+
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '<?= base_url('blog/add') ?>', true);
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                alert('Content saved successfully!');
+                // Handle success if needed
+            } else {
+                alert('Error occurred while saving content.');
+                // Handle error if needed
+            }
+        };
+        xhr.send(formData);
     });
 </script>
